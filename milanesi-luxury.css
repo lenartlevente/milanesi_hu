@@ -229,6 +229,11 @@ body.milano_global-body {
   border-block-start: 1px solid var(--milanesi-divider);
 }
 
+/* Homepage modules already draw a rule under their title – avoid a double line. */
+.home-body main :is(#special, #bestseller, #featured) .product-snapshot-vertical {
+  border-block-start: 0 !important;
+}
+
 #body.milano_global-body main :is(
   .snapshot-list-container,
   #special,
@@ -515,6 +520,125 @@ body.milano_global-body {
 
 .home-body main #customcontent2 .milanesi-product-highlight {
   margin-block: var(--milanesi-content-space);
+}
+
+/* Blog teasers (#news): aligned cards, clean 4-line excerpts. */
+.home-body main #news > .module-body > p {
+  max-width: var(--milanesi-measure);
+}
+
+.home-body main #news > .module-body > p:empty {
+  display: none;
+}
+
+.home-body main #news .news-card-deck {
+  margin-block-start: clamp(2rem, 4vw, 3.5rem);
+}
+
+.home-body main #news .news-card {
+  overflow: hidden;
+}
+
+.home-body main #news .news-card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.5rem 0.5rem;
+}
+
+/* Cards without an author label keep the same top line. */
+.home-body main #news .news-card-subtitle {
+  min-height: 0.95rem;
+  margin: 0 0 1rem;
+  letter-spacing: var(--milanesi-tracking-label);
+  text-transform: uppercase;
+}
+
+.home-body main #news .news-card-title {
+  min-height: calc(4 * 1.25em);
+  margin: 0 0 1rem;
+  line-height: 1.25;
+}
+
+.home-body main #news .news-card-title > a {
+  display: -webkit-box;
+  height: auto;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+/* The theme cuts the excerpt at a fixed height mid-line; clamp whole lines. */
+.home-body main #news .news-card-text {
+  display: -webkit-box;
+  max-height: none;
+  margin: 0;
+  overflow: hidden;
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.home-body main #news .news-card-footer {
+  padding: 1.25rem 1.5rem 1.75rem;
+}
+
+/* Category tiles (#categoryoffer): equal frames, framed packshots, aligned names. */
+.home-body main #categoryoffer > .module-body {
+  margin-block-start: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.home-body main #categoryoffer .categoryoffer-row {
+  row-gap: clamp(1rem, 2.4vw, 1.875rem);
+}
+
+.home-body main #categoryoffer .categoryoffer-col {
+  display: flex;
+  margin-block-start: 0;
+}
+
+.home-body main #categoryoffer .category-card {
+  flex: 1 1 auto;
+  overflow: hidden;
+  transition: transform 0.45s var(--milanesi-ease), box-shadow 0.45s var(--milanesi-ease);
+}
+
+.home-body main #categoryoffer .categoryoffer-card-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: clamp(0.75rem, 1.2vw, 1rem) clamp(0.75rem, 1.2vw, 1rem) 0;
+  transition: transform 0.9s var(--milanesi-ease);
+}
+
+.home-body main #categoryoffer .category-card > .card-body {
+  display: flex;
+  flex: 1 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(2 * 1.3em + 2.5rem);
+  padding: 0.75rem 0.5rem 1.25rem;
+}
+
+.home-body main #categoryoffer .category-card h5 {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: auto;
+}
+
+@media (hover: hover) {
+  .home-body main #categoryoffer .category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -22px rgb(0 0 0 / 35%);
+  }
+
+  .home-body main #categoryoffer .category-card:hover .categoryoffer-card-image {
+    transform: scale(1.04);
+  }
 }
 
 /* ------------------------------------------------------------------ */
