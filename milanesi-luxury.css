@@ -951,18 +951,38 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
   margin-block-start: 0.4em;
 }
 
-/* The bundle descriptions use Bootstrap columns inside a narrow reading area. */
+/* Bundle descriptions (2 or 3 products in Bootstrap columns) read as one
+   column, aligned with single-product descriptions. */
+.milano_global-body.product-page-body .flypage .product-desc > .container {
+  padding-inline: 0;
+}
+
+.milano_global-body.product-page-body .flypage .product-desc > .container > .row {
+  margin-inline: 0;
+}
+
+.milano_global-body.product-page-body .flypage .product-desc > .container > .row > [class*="col-"] {
+  padding-inline: 0;
+}
+
 @media (min-width: 768px) {
-  .milano_global-body.product-page-body .flypage .product-desc > .container > .row > .col-lg-4.col-md-6 {
+  .milano_global-body.product-page-body .flypage .product-desc > .container > .row > [class*="col-"] {
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  .milano_global-body.product-page-body .flypage .product-desc > .container > .row > .col-lg-4.col-md-6 + .col-lg-4.col-md-6 {
+  .milano_global-body.product-page-body .flypage .product-desc > .container > .row > [class*="col-"] + [class*="col-"] {
     margin-block-start: 1.5rem;
     padding-block-start: 1.85rem;
     border-block-start: 1px solid var(--milanesi-divider);
   }
+}
+
+/* Product names inside bundle descriptions share one size. */
+.milano_global-body.product-page-body .flypage .product-desc > .container > .row > [class*="col-"] > :is(h2, h3):first-child:not(.module-head-title) {
+  margin-block: 0 0.85rem;
+  font-size: clamp(1.35rem, 2vw, 1.5rem);
+  line-height: 1.25;
 }
 
 .milano_global-body.product-page-body .flypage .product-desc .module-head-title {
@@ -976,7 +996,7 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 }
 
 .milano_global-body.product-page-body .flypage .product-page-middle-3 .position-3-wrapper {
-  max-width: var(--milanesi-row-width);
+  max-width: var(--milanesi-measure);
   margin-inline: auto;
 }
 
@@ -1003,8 +1023,21 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 }
 
 .milano_global-body.product-page-body .flypage .product-page-middle-3 .parameter-table td {
-  padding-block: 0.65rem;
+  padding: 1rem 0;
   border-color: var(--milanesi-divider);
+  line-height: 1.7;
+  vertical-align: top;
+}
+
+.milano_global-body.product-page-body .flypage .product-page-middle-3 .parameter-table td:first-child {
+  width: 9.5rem;
+  padding-inline-end: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+/* Ingredient copy pasted in bold reads heavy; let it sit at body weight. */
+.milano_global-body.product-page-body .flypage .product-page-middle-3 .parameter-table td :is(strong, b) {
+  font-weight: inherit;
 }
 
 .milano_global-body.product-page-body .flypage .position-4-container {
