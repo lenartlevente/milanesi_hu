@@ -1,20 +1,69 @@
 /*!
- * Milanesi Hungary – editorial spacing
+ * Milanesi Hungary – editorial spacing (v2, "quiet luxury")
  * Add after the Shoprenter Milano theme and the shop's existing custom CSS.
+ *
+ * Scope of v2: sizes, spacing, alignment and rhythm only.
+ * Colours and font families are unchanged from v1.
  */
 
 body.milano_global-body {
-  --milanesi-section-space: clamp(4.75rem, 9vw, 7.75rem);
-  --milanesi-content-space: clamp(1.625rem, 3.9vw, 3.5rem);
-  --milanesi-row-space: clamp(1.375rem, 3.5vw, 3rem);
-  --milanesi-row-width: 62rem;
+  /* Vertical rhythm – a calmer mobile minimum, more air on large screens. */
+  --milanesi-section-space: clamp(3.75rem, 8.5vw, 8.5rem);
+  --milanesi-content-space: clamp(1.5rem, 3.6vw, 3.5rem);
+  --milanesi-row-space: clamp(1.75rem, 3.6vw, 3.25rem);
+  --milanesi-gutter: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* Measures */
+  --milanesi-row-width: 64rem;
+  --milanesi-measure: 66ch;
+  --milanesi-measure-narrow: 52ch;
+
+  /* Typographic tracking for small labels, nav and buttons. */
+  --milanesi-tracking-label: 0.1em;
+  --milanesi-tracking-nav: 0.045em;
+  --milanesi-tracking-title: -0.015em;
+
+  --milanesi-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Colours – unchanged. */
   --milanesi-divider: #e8e0d7;
   --milanesi-ink: #28231e;
   --milanesi-paper: #f5eee6;
   --milanesi-accent-ink: #563e2f;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Distribute the desktop navigation across the available row. */
+/* Headings break into balanced lines, body copy avoids orphans. */
+.milano_global-body main :is(h1, h2, h3, .page-head-title, .module-head-title, .product-card-title) {
+  text-wrap: balance;
+}
+
+.milano_global-body main p {
+  text-wrap: pretty;
+}
+
+/* Empty spacer paragraphs from the editor must not create random gaps. */
+.milano_global-body main :is(#customcontent12, .information-list-item-description, .product-desc) p:empty {
+  display: none;
+}
+
+/* Anchors land below the sticky header. */
+.milano_global-body :is([id], a[name]) {
+  scroll-margin-top: 7rem;
+}
+
+/* A visible but discreet focus ring. */
+.milano_global-body :is(a, button, input, select, textarea):focus-visible {
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Desktop navigation                                                  */
+/* ------------------------------------------------------------------ */
+
 @media (min-width: 992px) {
   .milano_global-body .sticky-head .header-middle-center {
     min-width: 0;
@@ -47,13 +96,35 @@ body.milano_global-body {
   }
 
   .milano_global-body .sticky-head .header-middle-center :is(.category-menu, .headermenu-list) > .nav-item > .nav-link {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.55rem;
-    min-height: 2.85rem;
-    padding-inline: clamp(0.5rem, 1vw, 1rem);
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding-inline: clamp(0.55rem, 1.05vw, 1.1rem);
+    letter-spacing: var(--milanesi-tracking-nav);
     white-space: nowrap;
+    transition: color 0.25s var(--milanesi-ease);
+  }
+
+  /* Hairline underline on hover – drawn in the existing text colour. */
+  .milano_global-body .sticky-head .header-middle-center :is(.category-menu, .headermenu-list) > .nav-item > .nav-link::before {
+    content: "";
+    position: absolute;
+    inset-inline: clamp(0.55rem, 1.05vw, 1.1rem);
+    inset-block-end: 0.55rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s var(--milanesi-ease);
+    pointer-events: none;
+  }
+
+  .milano_global-body .sticky-head .header-middle-center :is(.category-menu, .headermenu-list) > .nav-item:hover > .nav-link::before,
+  .milano_global-body .sticky-head .header-middle-center :is(.category-menu, .headermenu-list) > .nav-item > .nav-link:focus-visible::before {
+    transform: scaleX(1);
   }
 
   .milano_global-body .sticky-head .header-middle-center :is(.category-menu, .headermenu-list) > .nav-item:hover > .nav-link,
@@ -66,13 +137,15 @@ body.milano_global-body {
     flex: 0 0 auto;
     margin: 0 0 0.2rem;
     border-color: currentColor;
+    transform-origin: center;
+    scale: 0.85;
   }
 
   .milano_global-body .sticky-head .headermenu-list > .dropdown > .dropdown-hover-menu {
     width: max-content;
-    min-width: 16rem;
+    min-width: 16.5rem;
     max-width: min(25rem, calc(100vw - 2rem));
-    padding-block: 0.55rem;
+    padding-block: 0.75rem;
   }
 
   .milano_global-body .sticky-head .headermenu-list > .dropdown > .dropdown-hover-menu::before {
@@ -89,15 +162,22 @@ body.milano_global-body {
   }
 
   .milano_global-body .sticky-head .headermenu-list > .dropdown > .dropdown-hover-menu > .dropdown-item > a {
-    padding: 0.7rem 1.35rem;
+    display: block;
+    padding: 0.7rem 1.6rem;
     line-height: 1.45;
+    letter-spacing: 0.02em;
     overflow-wrap: anywhere;
+    transition: padding 0.25s var(--milanesi-ease), color 0.25s var(--milanesi-ease);
+  }
+
+  .milano_global-body .sticky-head .headermenu-list > .dropdown > .dropdown-hover-menu > .dropdown-item > a:hover {
+    padding-inline-start: 1.85rem;
   }
 
   .milano_global-body .sticky-head .category-menu .children {
-    min-width: 15rem;
+    min-width: 15.5rem;
     max-width: 20rem;
-    padding-block: 0.55rem;
+    padding-block: 0.75rem;
   }
 
   .milano_global-body .sticky-head .category-menu > .nav-item > .children {
@@ -107,9 +187,15 @@ body.milano_global-body {
   }
 
   .milano_global-body .sticky-head .category-menu .children .nav-link {
-    padding: 0.68rem 1.55rem;
+    padding: 0.68rem 1.6rem;
     line-height: 1.45;
+    letter-spacing: 0.02em;
     white-space: normal;
+    transition: padding 0.25s var(--milanesi-ease);
+  }
+
+  .milano_global-body .sticky-head .category-menu .children .nav-link:hover {
+    padding-inline-start: 1.85rem;
   }
 
   .milano_global-body .sticky-head .category-menu .children .parent > .nav-link {
@@ -123,7 +209,10 @@ body.milano_global-body {
   }
 }
 
-/* Catalog, search, homepage product modules and related products. */
+/* ------------------------------------------------------------------ */
+/* Catalog, search, homepage product modules and related products      */
+/* ------------------------------------------------------------------ */
+
 #body.milano_global-body main :is(
   .snapshot-list-container,
   #special,
@@ -137,6 +226,7 @@ body.milano_global-body {
   max-width: var(--milanesi-row-width);
   margin-inline: auto;
   overflow: visible;
+  border-block-start: 1px solid var(--milanesi-divider);
 }
 
 #body.milano_global-body main :is(
@@ -165,7 +255,7 @@ body.milano_global-body {
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   justify-items: center;
-  gap: 1rem var(--milanesi-content-space);
+  gap: 1.25rem var(--milanesi-content-space);
   min-width: 0;
   padding: 0;
   border: 0;
@@ -182,14 +272,38 @@ body.milano_global-body {
 }
 
 .milano_global-body main .product-snapshot-vertical > .product-snapshot > .product-card > .product-card-image {
+  position: relative;
   width: 100%;
-  max-width: 13rem;
-  aspect-ratio: 1;
+  max-width: 15rem;
   margin: 0;
+  overflow: hidden;
 }
 
 .milano_global-body main .product-snapshot-vertical .product-card-image > .img-thumbnail-link {
+  display: block;
   width: 100%;
+}
+
+/* Every packshot sits in the same square, nothing stretches or crops. */
+.milano_global-body main .product-snapshot-vertical .product-card-image > .img-thumbnail-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  transition: transform 0.9s var(--milanesi-ease);
+}
+
+@media (hover: hover) {
+  .milano_global-body main .product-snapshot-vertical .product-card:hover .product-card-image > .img-thumbnail-link img {
+    transform: scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .milano_global-body main .product-snapshot-vertical .product-card-image > .img-thumbnail-link img {
+    transition: none;
+  }
 }
 
 .milano_global-body main :is(
@@ -198,11 +312,12 @@ body.milano_global-body {
 ) .badgeitemid_13 {
   width: auto !important;
   height: auto !important;
-  padding: 0.35rem 0.6rem;
+  padding: 0.4rem 0.7rem 0.35rem;
   background: var(--milanesi-paper) !important;
   color: var(--milanesi-accent-ink);
-  font-size: 0.7rem;
-  line-height: 1.35;
+  font-size: 0.68rem;
+  line-height: 1.3;
+  letter-spacing: var(--milanesi-tracking-label);
 }
 
 .milano_global-body main :is(
@@ -212,26 +327,42 @@ body.milano_global-body {
   color: inherit;
 }
 
+.milano_global-body main .product-snapshot-vertical .card-badges {
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+}
+
 .milano_global-body main .product-snapshot-vertical > .product-snapshot > .product-card > .product-card-body {
   min-width: 0;
   width: 100%;
+  max-width: 34rem;
   padding: 0;
   text-align: center;
 }
 
 .milano_global-body main .product-snapshot-vertical > .product-snapshot .product-card-title {
-  max-width: 32ch;
-  margin: 0 auto 0.75rem;
+  max-width: 28ch;
+  margin: 0 auto 0.85rem;
   color: var(--milanesi-ink);
-  font-size: clamp(1.25rem, 2.2vw, 1.95rem);
+  font-size: clamp(1.25rem, 2vw, 1.8rem);
   font-weight: 400;
-  line-height: 1.22;
-  overflow-wrap: anywhere;
+  line-height: 1.24;
+  letter-spacing: var(--milanesi-tracking-title);
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.milano_global-body main .product-snapshot-vertical > .product-snapshot .product-card-title a {
+  transition: color 0.25s var(--milanesi-ease);
 }
 
 .milano_global-body main .product-snapshot-vertical > .product-snapshot .product-card-price {
   justify-content: center;
-  margin-block: 0.75rem;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  flex-wrap: wrap;
+  margin-block: 0.9rem 1.1rem;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .milano_global-body main .product-snapshot-vertical > .product-snapshot .product-card-image:focus-within .card-add-to-cart-overlay {
@@ -271,7 +402,7 @@ body.milano_global-body {
     #featured,
     #relatedproducts
   ) .product-snapshot-vertical > .product-snapshot > .product-card {
-    grid-template-columns: minmax(0, min(38%, 16rem)) minmax(0, 1fr);
+    grid-template-columns: min(40%, 17.5rem) minmax(0, 1fr);
     justify-items: stretch;
   }
 
@@ -280,6 +411,8 @@ body.milano_global-body {
   }
 
   .milano_global-body main .product-snapshot-vertical > .product-snapshot > .product-card > .product-card-body {
+    max-width: none;
+    padding-inline-end: clamp(0rem, 3vw, 2.5rem);
     text-align: start;
   }
 
@@ -292,7 +425,41 @@ body.milano_global-body {
   }
 }
 
-/* Spacing around the homepage's existing feature blocks. */
+/* Alternate image side on wide screens for an editorial, magazine rhythm.
+   :not(#milanesi-x) only lifts specificity above the :is(#special…) rules. */
+@media (min-width: 992px) {
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) > .product-card {
+    grid-template-columns: minmax(0, 1fr) min(40%, 17.5rem);
+  }
+
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) > .product-card > .product-card-image {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) > .product-card > .card-top-position:not(:empty) ~ .product-card-image {
+    grid-row: 2;
+  }
+
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) > .product-card > .product-card-body {
+    grid-column: 1;
+    padding-inline: clamp(0rem, 3vw, 2.5rem) 0;
+    text-align: end;
+  }
+
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) .product-card-title {
+    margin-inline: auto 0;
+  }
+
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) .product-card-price {
+    justify-content: flex-end;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Homepage feature blocks                                             */
+/* ------------------------------------------------------------------ */
+
 .home-body main .one-column-content > div > .page-body {
   margin-block-start: var(--milanesi-content-space);
 }
@@ -301,8 +468,13 @@ body.milano_global-body {
   margin-block-end: var(--milanesi-section-space);
 }
 
+.home-body main .page-body > div:last-child > .home-position {
+  margin-block-end: calc(var(--milanesi-section-space) * 0.75);
+}
+
 .home-body main .home-position > .module-head {
-  padding-block-end: clamp(0.5rem, 1.5vw, 1rem);
+  padding-block-end: clamp(0.65rem, 1.6vw, 1.15rem);
+  text-align: center;
 }
 
 .home-body main .home-position > .module-head > .module-head-title,
@@ -312,61 +484,125 @@ body.milano_global-body {
 .milano_global-body.product-list-body main .page-head-title {
   color: var(--milanesi-ink);
   font-weight: 400;
-  line-height: 1.18;
-  letter-spacing: -0.015em;
+  line-height: 1.16;
+  letter-spacing: var(--milanesi-tracking-title);
   text-transform: none;
 }
 
 .home-body main .home-position > .module-head > .module-head-title {
-  font-size: clamp(1.5rem, 3vw, 2.45rem);
+  display: inline-block;
+  margin-inline: auto;
+  padding-block-end: clamp(0.6rem, 1.4vw, 0.95rem);
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
   border-color: var(--milanesi-divider);
 }
 
+/* Intro text under the H1: a calm, centred reading column. */
+.home-body main #customcontent12 {
+  max-width: var(--milanesi-measure);
+  margin-inline: auto;
+  padding-inline: var(--milanesi-gutter);
+  text-align: center;
+}
+
+.home-body main #customcontent12 h1 {
+  margin-block: 0 clamp(1rem, 2.4vw, 1.75rem);
+  font-size: clamp(1.75rem, 3.6vw, 2.9rem);
+}
+
+.home-body main #customcontent12 :is(ul, ol) {
+  display: inline-block;
+  margin-block: 1.25em;
+  text-align: start;
+}
+
+.home-body main #customcontent12 li + li {
+  margin-block-start: 0.45em;
+}
+
 .home-body main :is(#special, #bestseller, #featured) > .module-body {
-  margin-block-start: clamp(0.75rem, 2vw, 1.65rem);
+  margin-block-start: clamp(1rem, 2.4vw, 2rem);
 }
 
 .home-body main .product-module-list-link-wrapper {
   margin-block-start: var(--milanesi-content-space);
+  text-align: center;
+}
+
+.home-body main .product-module-list-link-wrapper a {
+  letter-spacing: var(--milanesi-tracking-label);
 }
 
 .home-body main #customcontent2 .milanesi-product-highlight {
   margin-block: var(--milanesi-content-space);
 }
 
-/* Reading rhythm for category, product, blog and information pages. */
+/* ------------------------------------------------------------------ */
+/* Reading rhythm for category, product, blog and information pages    */
+/* ------------------------------------------------------------------ */
+
 body.milano_global-body:is(.product-list-body, .information-page-body, .information-list-body) main .page-head {
   margin-block: var(--milanesi-content-space);
+  text-align: center;
+}
+
+body.milano_global-body.product-list-body main .page-head-title,
+body.milano_global-body.information-page-body main .page-head-title {
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
 }
 
 body.milano_global-body.information-list-body main #content > .page-head-title {
   margin-block: var(--milanesi-content-space);
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  text-align: center;
+}
+
+/* Long-form text keeps a comfortable line length. */
+.milano_global-body main :is(.information-list-item-description, .information-page .page-body, .category-description) {
+  max-width: var(--milanesi-measure);
+  margin-inline: auto;
 }
 
 .milano_global-body main :is(
   .information-list-item-description,
   .flypage .product-desc,
-  #customcontent12
+  #customcontent12,
+  .category-description
 ) p {
   line-height: 1.75;
 }
 
 .milano_global-body main :is(
   .information-list-item-description,
-  .flypage .product-desc
+  .flypage .product-desc,
+  .category-description
 ) p + p {
   margin-block-start: 1.15em;
 }
 
 .milano_global-body main .information-list-item-description :is(h2, h3, h4) {
-  margin-block-start: var(--milanesi-content-space);
-  margin-block-end: 0.65em;
-  line-height: 1.35;
+  margin-block-start: calc(var(--milanesi-content-space) * 1.1);
+  margin-block-end: 0.6em;
+  line-height: 1.3;
 }
 
-/* Product detail in the Shoprenter Milano theme. */
+.milano_global-body main .information-list-item-description img {
+  height: auto;
+  margin-block: var(--milanesi-content-space);
+}
+
+.milano_global-body main .information-list-item-description blockquote {
+  margin: var(--milanesi-content-space) 0;
+  padding-inline-start: clamp(1rem, 3vw, 2rem);
+  border-inline-start: 1px solid var(--milanesi-divider);
+}
+
+/* ------------------------------------------------------------------ */
+/* Product detail in the Shoprenter Milano theme                        */
+/* ------------------------------------------------------------------ */
+
 .milano_global-body.product-page-body .flypage {
-  max-width: 74rem;
+  max-width: 76rem;
   margin-inline: auto;
 }
 
@@ -387,7 +623,18 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 
 @media (min-width: 768px) {
   .milano_global-body.product-page-body .flypage #product > .row {
-    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .milano_global-body.product-page-body .flypage .product-page-right {
+    padding-block-start: clamp(0.25rem, 1.5vw, 1.25rem);
+  }
+}
+
+@media (min-width: 1200px) {
+  .milano_global-body.product-page-body .flypage .product-page-right {
+    max-width: 32rem;
   }
 }
 
@@ -403,86 +650,102 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 
 .milano_global-body.product-page-body .flypage #product-image-container .product-image-row {
   margin-inline: 0;
+  justify-content: center;
 }
 
 .milano_global-body.product-page-body .flypage #product-image-container .product-image-row > .col:first-child {
   max-width: none;
-  margin-block-end: 0.75rem;
-  padding: clamp(0.75rem, 2.5vw, 1.75rem) 0.75rem 0;
+  margin-block-end: 0.85rem;
+  padding: clamp(1rem, 3vw, 2.25rem) 1rem 0;
+  text-align: center;
 }
 
 .milano_global-body.product-page-body .flypage #product-image-container .product-image-row > .col:first-child img {
-  width: min(100%, 27rem);
+  width: min(100%, 28rem);
   height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
 }
 
 .milano_global-body.product-page-body .flypage #product-image-container .product-image-row > .gallery-thumb {
-  max-width: 6rem;
-  margin: 0 0.3rem 0.85rem;
+  max-width: 5.5rem;
+  margin: 0 0.35rem 1rem;
   padding: 0;
 }
 
 .milano_global-body.product-page-body .flypage #product-image-container .gallery-thumb img {
+  aspect-ratio: 1;
+  object-fit: contain;
   padding: 0;
   border-color: var(--milanesi-divider);
+  opacity: 0.8;
+  transition: opacity 0.25s var(--milanesi-ease);
+}
+
+.milano_global-body.product-page-body .flypage #product-image-container .gallery-thumb:hover img {
+  opacity: 1;
 }
 
 .milano_global-body.product-page-body .flypage .product-image-box .product-image-mobile .slick-arrow {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 1px solid var(--milanesi-divider);
   border-radius: 50%;
   background-color: rgb(255 255 255 / 94%);
 }
 
 .milano_global-body.product-page-body .flypage .product-image-mobile .slick-prev {
-  left: 0.4rem;
+  left: 0.5rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-image-mobile .slick-next {
-  right: 0.4rem;
+  right: 0.5rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-image-box .product-image-mobile .slick-arrow::after {
   inset-inline: 0;
-  width: 0.65rem;
-  height: 0.65rem;
+  width: 0.6rem;
+  height: 0.6rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-image-box .product_badges {
-  inset-block-start: 0.75rem;
-  inset-inline-start: 0.75rem;
+  inset-block-start: 1rem;
+  inset-inline-start: 1rem;
   inset-inline-end: auto;
 }
 
 .milano_global-body.product-page-body .flypage .tags-wrapper {
-  margin-block-start: 0.85rem;
+  margin-block-start: 1rem;
 }
 
 .milano_global-body.product-page-body .flypage .tags {
-  row-gap: 0.3rem;
+  gap: 0.4rem;
 }
 
 .milano_global-body.product-page-body .flypage .tags a {
+  padding-inline: 0.75rem;
   border-color: var(--milanesi-divider);
   background-color: transparent;
   color: var(--milanesi-accent-ink);
+  letter-spacing: 0.03em;
 }
 
 .milano_global-body.product-page-body .flypage .page-head-title {
-  margin-block: 0 clamp(0.85rem, 2vw, 1.4rem);
-  font-size: clamp(1.6rem, 3vw, 2.55rem);
-  overflow-wrap: anywhere;
+  margin-block: 0 clamp(0.9rem, 2vw, 1.5rem);
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right > .product-page-price-wrapper {
-  margin-block-end: 1.15rem;
-  padding-block: 0.75rem 1rem;
+  margin-block-end: 1.35rem;
+  padding-block: 0.85rem 1.25rem;
   border-block-end: 1px solid var(--milanesi-divider);
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right .product-page-price-line {
-  gap: 0.4rem 0.65rem;
+  align-items: baseline;
+  gap: 0.4rem 0.75rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right .product-page-price-line-inner {
@@ -490,16 +753,20 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right :is(.product-page-price, .product-page-price-special) {
-  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.01em;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-price-line .decrease-amount {
+  padding: 0.25rem 0.55rem;
   background-color: var(--milanesi-paper);
   color: var(--milanesi-accent-ink);
+  letter-spacing: 0.04em;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right .product-collateral-wrapper:not(:empty) {
-  padding: 0.9rem clamp(0.75rem, 2vw, 1.2rem);
+  padding: 1rem clamp(0.9rem, 2vw, 1.35rem);
   border: 1px solid var(--milanesi-divider);
 }
 
@@ -510,7 +777,7 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 
 .milano_global-body.product-page-body .flypage .product-collateral-list-item {
   margin-block-end: 0;
-  padding-block: 0.45rem;
+  padding-block: 0.55rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-collateral-list-item + .product-collateral-list-item {
@@ -518,37 +785,42 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right .product-addtocart {
-  padding-block: 1.15rem 1.25rem;
+  padding-block: 1.35rem 1.5rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right .product-addtocart-wrapper {
   flex-wrap: wrap;
-  row-gap: 0.65rem;
+  align-items: stretch;
+  gap: 0.65rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right .product_table_addtocartbtn {
-  flex: 1 1 8rem;
+  flex: 1 1 9rem;
   min-width: 0;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-right .button-add-to-cart {
   width: 100%;
-  min-height: 2.9rem;
-  padding: 0.85rem 0.75rem;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.25rem;
   line-height: 1.3;
+  letter-spacing: var(--milanesi-tracking-label);
+  transition: background-color 0.25s var(--milanesi-ease), color 0.25s var(--milanesi-ease), border-color 0.25s var(--milanesi-ease);
 }
 
 .milano_global-body.product-page-body .flypage .product-parameters td {
-  padding-block: 0.65rem;
+  padding-block: 0.7rem;
   border-color: var(--milanesi-divider);
+  vertical-align: top;
 }
 
 .milano_global-body.product-page-body .flypage .product-parameters td.product-short-description {
   color: var(--milanesi-ink);
+  line-height: 1.65;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-middle-2 .position-2-wrapper {
-  max-width: 72ch;
+  max-width: var(--milanesi-measure);
   margin-inline: auto;
 }
 
@@ -559,7 +831,15 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 .milano_global-body.product-page-body .flypage .product-desc {
   display: block;
   line-height: 1.75;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+}
+
+.milano_global-body.product-page-body .flypage .product-desc :is(ul, ol) {
+  padding-inline-start: 1.25em;
+}
+
+.milano_global-body.product-page-body .flypage .product-desc li + li {
+  margin-block-start: 0.4em;
 }
 
 /* The bundle descriptions use Bootstrap columns inside a narrow reading area. */
@@ -570,14 +850,14 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
   }
 
   .milano_global-body.product-page-body .flypage .product-desc > .container > .row > .col-lg-4.col-md-6 + .col-lg-4.col-md-6 {
-    margin-block-start: 1.35rem;
-    padding-block-start: 1.65rem;
+    margin-block-start: 1.5rem;
+    padding-block-start: 1.85rem;
     border-block-start: 1px solid var(--milanesi-divider);
   }
 }
 
 .milano_global-body.product-page-body .flypage .product-desc .module-head-title {
-  margin-block: var(--milanesi-content-space) 0.8rem;
+  margin-block: var(--milanesi-content-space) 0.85rem;
   border-color: var(--milanesi-divider);
 }
 
@@ -595,8 +875,13 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
   border-color: var(--milanesi-divider);
 }
 
+.milano_global-body.product-page-body .flypage #flypage-nav {
+  justify-content: center;
+}
+
 .milano_global-body.product-page-body .flypage #flypage-nav .nav-link {
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.35rem;
+  letter-spacing: var(--milanesi-tracking-nav);
 }
 
 .milano_global-body.product-page-body .flypage #flypage-nav .nav-link.active {
@@ -605,10 +890,11 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 }
 
 .milano_global-body.product-page-body .flypage .product-page-middle-3 .tab-content {
-  padding-block-start: 0.85rem;
+  padding-block-start: 1.25rem;
 }
 
 .milano_global-body.product-page-body .flypage .product-page-middle-3 .parameter-table td {
+  padding-block: 0.65rem;
   border-color: var(--milanesi-divider);
 }
 
@@ -619,10 +905,39 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 .milano_global-body.product-page-body .flypage #relatedproducts > .module-head {
   max-width: var(--milanesi-row-width);
   margin-inline: auto;
+  text-align: center;
 }
 
+/* ------------------------------------------------------------------ */
+/* Footer                                                              */
+/* ------------------------------------------------------------------ */
+
 .milano_global-body .page-wrap > footer > .container > .footer-rows {
-  padding-block: var(--milanesi-content-space);
+  padding-block: calc(var(--milanesi-content-space) * 1.25) var(--milanesi-content-space);
+  row-gap: var(--milanesi-content-space);
+}
+
+.milano_global-body .page-wrap > footer :is(ul, .list-unstyled) li + li {
+  margin-block-start: 0.5rem;
+}
+
+.milano_global-body .page-wrap > footer a {
+  transition: color 0.25s var(--milanesi-ease);
+}
+
+.milano_global-body .page-wrap > footer :is(h3, h4, h5, .footer-title, .module-head-title) {
+  margin-block-end: 1rem;
+  letter-spacing: var(--milanesi-tracking-label);
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion & print                                                      */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .milano_global-body * {
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @media print {
