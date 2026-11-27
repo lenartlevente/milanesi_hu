@@ -599,7 +599,11 @@ body.milano_global-body {
 .home-body main #categoryoffer .category-card {
   flex: 1 1 auto;
   overflow: hidden;
-  transition: transform 0.45s var(--milanesi-ease), box-shadow 0.45s var(--milanesi-ease);
+  /* Same hairline frame as the product page image box. */
+  border: 1px solid var(--milanesi-divider);
+  border-radius: 0;
+  background-color: #fff;
+  transition: transform 0.45s var(--milanesi-ease), box-shadow 0.45s var(--milanesi-ease), border-color 0.45s var(--milanesi-ease);
 }
 
 .home-body main #categoryoffer .categoryoffer-card-image {
@@ -632,6 +636,7 @@ body.milano_global-body {
 
 @media (hover: hover) {
   .home-body main #categoryoffer .category-card:hover {
+    border-color: var(--milanesi-accent-ink);
     transform: translateY(-3px);
     box-shadow: 0 14px 30px -22px rgb(0 0 0 / 35%);
   }
