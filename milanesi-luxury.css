@@ -1215,6 +1215,86 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 }
 
 /* ------------------------------------------------------------------ */
+/* v4 – category page                                                  */
+/* ------------------------------------------------------------------ */
+
+/* Sub-category tiles: the same hairline frame as the product page. */
+.milano_global-body main .subcategory-list {
+  row-gap: clamp(0.75rem, 1.8vw, 1.25rem);
+}
+
+.milano_global-body main .subcategory-list .category-card {
+  height: 100%;
+  margin-block-start: 0;
+  border: 1px solid var(--milanesi-divider);
+  border-radius: 0;
+  transition: border-color 0.35s var(--milanesi-ease), transform 0.35s var(--milanesi-ease);
+}
+
+.milano_global-body main .subcategory-list .category-card-link {
+  align-items: center;
+  justify-content: center;
+  min-height: 4.5rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-wrap: balance;
+}
+
+@media (hover: hover) {
+  .milano_global-body main .subcategory-list .category-card:hover {
+    border-color: var(--milanesi-accent-ink);
+    transform: translateY(-2px);
+  }
+}
+
+/* Quick-view button on packshots: hairline instead of a dark box. */
+.milano_global-body main .card-buttons-overlay .btn-details {
+  border-color: var(--milanesi-divider);
+  background-color: #fff;
+  transition: border-color 0.25s var(--milanesi-ease);
+}
+
+.milano_global-body main .card-buttons-overlay .btn-details:hover {
+  border-color: var(--milanesi-accent-ink);
+}
+
+/* Mirrored rows: every line of the text column follows the right edge. */
+@media (min-width: 992px) {
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) > .product-card > .product-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) .product-card-wishlist > a {
+    justify-content: flex-end;
+  }
+
+  #body.milano_global-body main .snapshot-list-container:not(#milanesi-x) .product-snapshot-vertical > .product-snapshot:nth-child(even) .product-card-attributes {
+    text-align: end;
+  }
+}
+
+/* Pagination: hairline squares, the current page in the accent ink. */
+.milano_global-body main .pagination .page-link {
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-color: var(--milanesi-divider);
+  background-color: transparent;
+  letter-spacing: 0.04em;
+  transition: border-color 0.25s var(--milanesi-ease);
+}
+
+.milano_global-body main .pagination .page-item.active .page-link,
+.milano_global-body main .pagination .page-link:hover {
+  border-color: var(--milanesi-accent-ink);
+}
+
+/* ------------------------------------------------------------------ */
 /* Motion & print                                                      */
 /* ------------------------------------------------------------------ */
 
