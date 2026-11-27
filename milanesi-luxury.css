@@ -1533,6 +1533,19 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
 }
 
 /* ------------------------------------------------------------------ */
+/* v7 – performance                                                    */
+/* ------------------------------------------------------------------ */
+
+/* Mobile product gallery: reserve the square before the slider loads
+   (PageSpeed reported a layout shift here; packshots are 1:1). */
+.milano_global-body.product-page-body .flypage .product-image-mobile img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+/* ------------------------------------------------------------------ */
 /* Motion & print                                                      */
 /* ------------------------------------------------------------------ */
 
