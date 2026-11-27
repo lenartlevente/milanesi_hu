@@ -10,7 +10,6 @@ body.milano_global-body {
   --milanesi-row-width: 62rem;
   --milanesi-divider: #e8e0d7;
   --milanesi-ink: #28231e;
-  --milanesi-serif: Georgia, "Times New Roman", serif;
 }
 
 /* Catalog, search, homepage product modules and related products. */
@@ -107,7 +106,6 @@ body.milano_global-body {
   max-width: 32ch;
   margin: 0 auto 0.75rem;
   color: var(--milanesi-ink);
-  font-family: var(--milanesi-serif);
   font-size: clamp(1.25rem, 2.2vw, 1.95rem);
   font-weight: 400;
   line-height: 1.22;
@@ -196,7 +194,6 @@ body.milano_global-body {
 .information-list-body main #content > .page-head-title,
 .milano_global-body.product-list-body main .page-head-title {
   color: var(--milanesi-ink);
-  font-family: var(--milanesi-serif);
   font-weight: 400;
   line-height: 1.18;
   letter-spacing: -0.015em;
