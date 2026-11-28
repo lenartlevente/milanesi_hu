@@ -1273,6 +1273,19 @@ body.milano_global-body.information-list-body main #content > .page-head-title {
   line-height: 1.4;
   letter-spacing: 0.05em;
   text-wrap: balance;
+  /* Never split a word letter by letter; hyphenate long Hungarian words. */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: auto;
+}
+
+@media (max-width: 575.98px) {
+  .milano_global-body main .subcategory-list .category-card-link {
+    min-height: 4rem;
+    padding: 0.75rem 0.6rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+  }
 }
 
 @media (hover: hover) {
